@@ -10,9 +10,27 @@ def main():
 
     while True:
         # Capture a frame
-        capture_frame(stream_url, images_dir=images_dir)
-        print("Frame captured. This is where person detection will happen soon.")
-        time.sleep(5)  # Optional delay between captures
+        
+        frame = capture_frame(stream_url, images_dir=images_dir)
+
+        if frame is None:
+            print("Failed to capture frame. Skipping...")
+            continue
+
+        # Run object detection (replace with your function)
+        #detections = run_object_detection(detection_model, frame)
+
+        # Process detections (e.g., draw bounding boxes)
+        #detection_utils.process_detections(frame, detections)
+
+        # Optional: Pose estimation if used
+        # ... (similar steps for pose estimation)
+
+        # Display or save the processed frame
+        # ...
+
+        # Delay between captures
+        time.sleep(5)
 
 if __name__ == "__main__":
     main()

@@ -4,6 +4,13 @@
 
 This project establishes a privacy-centric security monitoring system utilizing Raspberry Pi 5 and Coral AI USB Accelerator. The system identifies individuals in video frames, analyzes their postures and actions, and generates comprehensive security logs.
 
+You will need following libs:
+
+```bash
+sudo apt-get install libgl1-mesa-glx
+pip install -r requirements.txt
+```
+
 ### Key Components
 
 * **TensorFlow Lite Models:**
