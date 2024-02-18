@@ -4,17 +4,27 @@
 
 This project establishes a privacy-centric security monitoring system utilizing Raspberry Pi 5 and Coral AI USB Accelerator. The system identifies individuals in video frames, analyzes their postures and actions, and generates comprehensive security logs.
 
-You will need following libs:
+### Run:
+
+1. You will need to install the following libs:
 
 ```bash
 sudo apt-get install libgl1-mesa-glx
 pip install -r requirements.txt
 ```
 
+2. Download required models:
+
+- [MobileNet v3](https://www.kaggle.com/models/google/mobilenet-v3/frameworks/tfLite)
+    - Find the desired model on TF Hub.
+    - Click "Download" and choose the TensorFlow Lite format.
+    - Unzip the downloaded file to extract the `.tflite` model file, rename to `mobilenet_v3.tflite` and move it in `src/models/` folder.
+
+
 ### Key Components
 
 * **TensorFlow Lite Models:**
-    * **Object Detection:** SSD MobileNet v2, EfficientDet-Lite (or similar)
+    * **Object Detection:** [MobileNet v3](https://www.kaggle.com/models/google/mobilenet-v3/frameworks/tfLite) or [EfficientDet-Lite](https://www.kaggle.com/models/tensorflow/efficientdet) (or similar)
     * **Pose Estimation:** PoseNet MobileNet v1 (or similar)
 * **Text Generation Model (Alternatives):**
     * Mistral 7B (original choice)
@@ -28,6 +38,7 @@ pip install -r requirements.txt
 
 * Raspberry Pi 5 (8GB RAM recommended)
 * Coral AI USB Accelerator
+* MicroSD Card (128GB or higher recommended)
 
 ### Privacy Focus
 

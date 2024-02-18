@@ -1,6 +1,7 @@
 import time
 import cv2
 import os
+import logging
 
 # Contains functions related to video capture and frame saving
 
@@ -15,7 +16,7 @@ def capture_frame(stream_url, images_dir="images"):
 
     # Check if stream is opened successfully
     if not cap.isOpened():
-        print("Cannot open stream")
+        logging.error("Failed to capture frame. Skipping...")
         return None  # Return None on error
 
     # Ensure the images directory exists
@@ -33,10 +34,9 @@ def capture_frame(stream_url, images_dir="images"):
 
         # Write the frame to the file
         cv2.imwrite(filename, frame)
-        print(f"Saved frame to {filename}")
-
+        logging.debug(f"Saved frame to {filename}")
     except ValueError as e:
-        print(f"Error capturing frame: {e}")
+        logging.error(f"Saved frame to {filename}")
         return None
 
     finally:
