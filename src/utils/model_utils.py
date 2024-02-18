@@ -1,7 +1,8 @@
 # Contains functions for loading and running TensorFlow Lite models
 
-import tensorflow as tf
+import time
 import logging
+import tensorflow as tf
 
 def load_model(model_path):
     """
@@ -19,6 +20,7 @@ def load_model(model_path):
 
     return interpreter
 
+
 def get_model_input_size(interpreter):
     """
     Gets the input size expected by the model from the TensorFlow Lite interpreter.
@@ -34,8 +36,6 @@ def get_model_input_size(interpreter):
     model_input_size = tuple(input_details[0]['shape'][1:3])
     return model_input_size
 
-import logging
-import time
 
 def run_inference(interpreter, input_data):
     """

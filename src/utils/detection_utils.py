@@ -30,24 +30,64 @@ def preprocess_frame(frame, model_input_size):
     # Return the preprocessed frame
     return frame
 
-def process_detections(frame, detections):
+
+def process_detections(frame, outputs):
     """
-    Visualizes and analyzes object detections on a frame.
+    Processes and visualizes the detections on the input frame.
 
     Args:
         frame (np.ndarray): RGB image array of the frame.
-        detections (list): List of detection results (boxes, labels, scores).
+        outputs (list): List of model outputs as NumPy arrays.
+
+    Returns:
+        np.ndarray: Processed frame with visualized detections.
     """
+    logging.debug("Processing detections...")
 
-    # Example processing steps:
-    # - Iterate through each detection
-    for box, label, score in detections:
-        # - Draw bounding box on the frame
-        cv2.rectangle(frame, (box[0], box[1]), (box[2], box[3]), (0, 255, 0), 2)
-        # - Add label and score text
-        text = f"{label}: {score:.2f}"
-        cv2.putText(frame, text, (box[0], box[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
+    # Assuming each element in outputs is a NumPy array containing detection information
+    for i, output in enumerate(outputs):
+        logging.debug(f"Processing output {i + 1}/{len(outputs)}...")
 
-    # - Optionally perform further analysis based on detections
+        # Assuming the structure of output array (modify according to your structure)
+        boxes = output[:, :4]  # Assuming the first four elements represent box coordinates
+        labels = output[:, 4].astype(int)  # Assuming the fifth element represents the label
+        scores = output[:, 5]  # Assuming the sixth element represents the score
 
+        # Iterate over each detection in the output array
+        for j, (box, label, score) in enumerate(zip(boxes, labels, scores)):
+            logging.debug(f"Processing detection {j + 1}/{len(boxes)} - Label: {label}, Score: {score:.2f}")
+
+            # Visualize the detection on the frame (modify according to your visualization logic)
+            frame = visualize_detection(frame, box, label, score)
+
+    logging.debug("Detections processing complete.")
+    return frame
+
+
+def visualize_detection(frame, box, label, score):
+    """
+    Visualizes a single detection on the input frame.
+
+    Args:
+        frame (np.ndarray): RGB image array of the frame.
+        box (list or np.ndarray): Detection box coordinates.
+        label (int): Detection label.
+        score (float): Detection score.
+
+    Returns:
+        np.ndarray: Frame with visualized detection.
+    """
+    logging.debug("Visualizing detection...")
+
+    # Modify this function according to your visualization logic
+    # Drawing a bounding box and text on the frame as an example
+    box = np.array(box, dtype=int)
+    color = (0, 255, 0)  # Green color
+    thickness = 2
+
+    frame = cv2.rectangle(frame, tuple(box[:2]), tuple(box[2:]), color, thickness)
+    label_text = f"Label: {label}, Score: {score:.2f}"
+    frame = cv2.putText(frame, label_text, (box[0], box[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, thickness, cv2.LINE_AA)
+
+    logging.debug("Detection visualization complete.")
     return frame

@@ -20,7 +20,6 @@ pip install -r requirements.txt
     - Click "Download" and choose the TensorFlow Lite format.
     - Unzip the downloaded file to extract the `.tflite` model file, rename to `mobilenet_v3.tflite` and move it in `src/models/` folder.
 
-
 ### Key Components
 
 * **TensorFlow Lite Models:**
