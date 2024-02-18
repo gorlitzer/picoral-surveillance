@@ -1,19 +1,17 @@
 import time
 import logging
 
-from coloredlogs import install
-
 from utils.video_utils import capture_frame
+from utils.coloredlogs_utils import configure_colored_logging
+from utils.detection_utils import preprocess_frame
 from utils.model_utils import load_model, get_model_input_size, run_inference
-from utils.detection_utils import preprocess_frame, process_detections
 
-
-# Load your model using the load_model function
+# Load model
 model = load_model("src/models/mobilenet_v3.tflite")
 model_input_size = get_model_input_size(model)
 
 def main():
-    # Stream URL and directory paths (replace with your values)
+    # Stream URL and directory paths
     stream_url = 'http://192.168.1.135:8080/video'
     images_dir = "data/temp/images"
 
@@ -46,12 +44,12 @@ def main():
 
 if __name__ == "__main__":
     
-    install(level="DEBUG")
+    configure_colored_logging()
 
-    # Example logging statements
-    logging.debug("This is a debug message.")
-    logging.info("This is an info message.")
-    logging.warning("This is a warning message.")
-    logging.error("This is an error message.")
-    
+    logging.debug('This is a debug message')
+    logging.info('This is an info message')
+    logging.warning('This is a warning message')
+    logging.error('This is an error message')
+    logging.critical('This is a critical message')
+
     main()
