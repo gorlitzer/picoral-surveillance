@@ -4,6 +4,16 @@ import time
 import logging
 import tensorflow as tf
 
+def load_image_recognition_models(object_detection_model_path, pose_estimation_model_path):
+    # Load object detection model
+    object_detection_model = load_model(object_detection_model_path)
+
+    # Load pose estimation model
+    pose_estimation_model = load_model(pose_estimation_model_path)
+
+    return object_detection_model, pose_estimation_model
+
+
 def load_model(model_path):
     """
     Loads a TensorFlow Lite model.
@@ -15,10 +25,16 @@ def load_model(model_path):
         tf.lite.Interpreter: The loaded model interpreter.
     """
 
-    interpreter = tf.lite.Interpreter(model_path=model_path)
-    interpreter.allocate_tensors()
+    logging.debug(f"Loading TensorFlow Lite model from: {model_path}")
 
-    return interpreter
+    try:
+        interpreter = tf.lite.Interpreter(model_path=model_path)
+        interpreter.allocate_tensors()
+        logging.debug("Model loaded successfully.")
+        return interpreter
+    except Exception as e:
+        logging.error(f"Failed to load the model. Error: {e}")
+        return None
 
 
 def get_model_input_size(interpreter):

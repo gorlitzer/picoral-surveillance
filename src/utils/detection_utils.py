@@ -30,8 +30,7 @@ def preprocess_frame(frame, model_input_size):
     # Return the preprocessed frame
     return frame
 
-
-def process_detections(frame, outputs):
+def process_object_detections(frame, outputs):
     """
     Processes and visualizes the detections on the input frame.
 
@@ -53,41 +52,54 @@ def process_detections(frame, outputs):
         labels = output[:, 4].astype(int)  # Assuming the fifth element represents the label
         scores = output[:, 5]  # Assuming the sixth element represents the score
 
-        # Iterate over each detection in the output array
+        # Debugging: Print detection information
         for j, (box, label, score) in enumerate(zip(boxes, labels, scores)):
-            logging.debug(f"Processing detection {j + 1}/{len(boxes)} - Label: {label}, Score: {score:.2f}")
+            logging.debug(f"Detection {j + 1}/{len(boxes)} - Label: {label}, Score: {score:.2f}, Box: {box}")
 
-            # Visualize the detection on the frame (modify according to your visualization logic)
-            frame = visualize_detection(frame, box, label, score)
+        # Visualize the detections on the frame
+        frame = visualize_detection(frame, boxes, labels, scores)
 
     logging.debug("Detections processing complete.")
     return frame
 
-
-def visualize_detection(frame, box, label, score):
+def visualize_detection(frame, boxes, labels, scores):
     """
-    Visualizes a single detection on the input frame.
+    Visualizes detections on the input frame.
 
     Args:
         frame (np.ndarray): RGB image array of the frame.
-        box (list or np.ndarray): Detection box coordinates.
-        label (int): Detection label.
-        score (float): Detection score.
+        boxes (np.ndarray): Detection box coordinates.
+        labels (np.ndarray): Detection labels.
+        scores (np.ndarray): Detection scores.
 
     Returns:
-        np.ndarray: Frame with visualized detection.
+        np.ndarray: Frame with visualized detections.
     """
-    logging.debug("Visualizing detection...")
+    logging.debug("Visualizing detections...")
 
-    # Modify this function according to your visualization logic
-    # Drawing a bounding box and text on the frame as an example
-    box = np.array(box, dtype=int)
-    color = (0, 255, 0)  # Green color
-    thickness = 2
+    for box, label, score in zip(boxes, labels, scores):
+        box = np.array(box, dtype=int)
+        color = (0, 255, 0)  # Green color
+        thickness = 2
 
-    frame = cv2.rectangle(frame, tuple(box[:2]), tuple(box[2:]), color, thickness)
-    label_text = f"Label: {label}, Score: {score:.2f}"
-    frame = cv2.putText(frame, label_text, (box[0], box[1] - 5), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, thickness, cv2.LINE_AA)
+        # Draw bounding box
+        frame = cv2.rectangle(frame, tuple(box[:2]), tuple(box[2:]), color, thickness)
+
+        # Debugging: Print label and score
+        logging.debug(f"Label: {label}, Score: {score:.2f}")
 
     logging.debug("Detection visualization complete.")
     return frame
+
+def detections_found(detections):
+    """
+    Checks if object detections are found based on the inference results.
+
+    Args:
+        detections (list): List of detection results.
+
+    Returns:
+        bool: True if detections are found, False otherwise.
+    """
+    # Assuming each detection is represented by a bounding box and a confidence score
+    return len(detections) > 0 and detections[0]['confidence'] > detection_threshold

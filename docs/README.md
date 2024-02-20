@@ -13,23 +13,30 @@ This project establishes a privacy-centric security monitoring system utilizing 
     pip install -r requirements.txt
     ```
 
-2. Download required models:
+2. Download required models (if not already in the folder):
 
    - [MobileNet v3](https://www.kaggle.com/models/google/mobilenet-v3/frameworks/tfLite)
      - Find the desired model on TF Hub.
      - Click "Download" and choose the TensorFlow Lite format.
      - Unzip the downloaded file to extract the `.tflite` model file, rename it to `mobilenet_v3.tflite`, and move it to the `src/models/` folder.
 
+     - [PoseNet MobileNet](https://www.kaggle.com/models/tensorflow/posenet-mobilenet)
+     - Find the desired model on TF Hub.
+     - Click "Download" and choose the TensorFlow Lite format.
+     - Unzip the downloaded file to extract the `.tflite` model file, rename it to `posenet_mobilenet.tflite`, and move it to the `src/models/` folder.
+
 ## Key Components
 
 - **TensorFlow Lite Models:**
   - **Object Detection:** [MobileNet v3](https://www.kaggle.com/models/google/mobilenet-v3/frameworks/tfLite) or [EfficientDet-Lite](https://www.kaggle.com/models/tensorflow/efficientdet) (or similar)
-  - **Pose Estimation:** PoseNet MobileNet v1 (or similar)
+  - **Pose Estimation:** [PoseNet MobileNet](https://www.kaggle.com/models/tensorflow/posenet-mobilenet)
+
 - **Text Generation Model (Alternatives):**
   - Mistral 7B (original choice)
   - Bard (Google AI's factual language model)
   - TinyGPT (lightweight GPT-2 variant)
   - GPT-Neo-X (compressed GPT-Neo)
+  
 - **Coral AI USB Accelerator:** Accelerates model inference
 - **Software Libraries:** OpenCV, TensorFlow Lite libraries, model-specific libraries
 
